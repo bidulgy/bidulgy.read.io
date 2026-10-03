@@ -3,35 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rhythm Soul - Battle Rhythm Prototype</title>
+<title>Rhythm Soul - Sans Battle</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 <main>
-  <h1>Rhythm Soul</h1>
-
-  <div id="stage">
-    <img
-      id="battleImage"
-      src="assets/sans-character.png"
-      alt="리듬 전투를 준비하는 샌즈 팬아트"
-    >
-
+  <header class="battle-hud">
+    <h1>RHYTHM SOUL</h1>
+    <div class="stats">
+      <span>HP <b id="hp">20</b>/20</span>
+      <span>SCORE <b id="score">0</b></span>
+      <span>COMBO <b id="combo">0</b></span>
+    </div>
+  </header>
+  <section id="stage" aria-label="샌즈 리듬 전투">
+    <div id="enemyArea">
+      <img id="battleImage" src="assets/sans-character.png" alt="샌즈">
+      <div id="attackLayer" aria-hidden="true"></div>
+      <div id="timing">READY</div>
+    </div>
+    <div id="soulBox" aria-label="영혼 전투 구역">
+      <div id="soul" aria-label="플레이어 영혼">♥</div>
+      <div id="shield" aria-hidden="true"></div>
+    </div>
     <div id="beatFlash"></div>
-    <div id="timing">READY</div>
-  </div>
-
+  </section>
   <div class="controls">
-    <button id="start">음악 시작</button>
-    <button id="hit">리듬 방어 (아무 키)</button>
+    <button id="start">전투 시작</button>
+    <button id="defend">방어</button>
   </div>
-
-  <p id="status">
-    음악의 박자에 맞춰 아무 키나 눌러 방어하세요.
-  </p>
+  <div class="defense-row">
+    <span>DEF</span>
+    <div class="cooldown-track"><div id="cooldownFill"></div></div>
+    <b id="defenseState">READY</b>
+  </div>
+  <p id="status">방향키/WASD로 이동하고, 다른 아무 키로 공격을 막으세요.</p>
 </main>
-
 <script src="game.js"></script>
 </body>
 </html>
