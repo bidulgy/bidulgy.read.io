@@ -1,0 +1,1444 @@
+[
+  {
+    "time": 1.8112,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.228
+  },
+  {
+    "time": 2.1827,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.582
+  },
+  {
+    "time": 3.692,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.706
+  },
+  {
+    "time": 3.9474,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.331
+  },
+  {
+    "time": 5.6889,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.906
+  },
+  {
+    "time": 7.6858,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.686
+  },
+  {
+    "time": 7.9412,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.22
+  },
+  {
+    "time": 8.3127,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.442
+  },
+  {
+    "time": 8.5449,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.343
+  },
+  {
+    "time": 8.9165,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.356
+  },
+  {
+    "time": 9.1487,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.271
+  },
+  {
+    "time": 10.0542,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.343
+  },
+  {
+    "time": 10.3097,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.595
+  },
+  {
+    "time": 10.5419,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.347
+  },
+  {
+    "time": 10.9134,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.221
+  },
+  {
+    "time": 11.1456,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.229
+  },
+  {
+    "time": 12.3066,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.971
+  },
+  {
+    "time": 12.5388,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.238
+  },
+  {
+    "time": 12.9335,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.409
+  },
+  {
+    "time": 13.1425,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.277
+  },
+  {
+    "time": 13.3979,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.232
+  },
+  {
+    "time": 14.5357,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.257
+  },
+  {
+    "time": 14.9072,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.263
+  },
+  {
+    "time": 15.1626,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.221
+  },
+  {
+    "time": 15.6967,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.453
+  },
+  {
+    "time": 16.045,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.338
+  },
+  {
+    "time": 16.5326,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.415
+  },
+  {
+    "time": 17.1595,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.551
+  },
+  {
+    "time": 17.8097,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.546
+  },
+  {
+    "time": 18.5527,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.437
+  },
+  {
+    "time": 19.8066,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.463
+  },
+  {
+    "time": 20.5497,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.624
+  },
+  {
+    "time": 21.432,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.292
+  },
+  {
+    "time": 21.8035,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.655
+  },
+  {
+    "time": 22.5234,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.54
+  },
+  {
+    "time": 23.4057,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.372
+  },
+  {
+    "time": 24.5435,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.403
+  },
+  {
+    "time": 26.3082,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.636
+  },
+  {
+    "time": 28.3051,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.405
+  },
+  {
+    "time": 28.5605,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.519
+  },
+  {
+    "time": 29.8144,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.288
+  },
+  {
+    "time": 30.5342,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.434
+  },
+  {
+    "time": 32.299,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.511
+  },
+  {
+    "time": 32.8098,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.423
+  },
+  {
+    "time": 33.2974,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.594
+  },
+  {
+    "time": 33.5528,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.356
+  },
+  {
+    "time": 33.785,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.634
+  },
+  {
+    "time": 34.0405,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.513
+  },
+  {
+    "time": 34.2494,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.615
+  },
+  {
+    "time": 34.5513,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.533
+  },
+  {
+    "time": 34.8067,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.533
+  },
+  {
+    "time": 35.2943,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 1.014
+  },
+  {
+    "time": 35.5498,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.25
+  },
+  {
+    "time": 35.8052,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.278
+  },
+  {
+    "time": 36.2696,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.535
+  },
+  {
+    "time": 36.5482,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.337
+  },
+  {
+    "time": 36.8036,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.396
+  },
+  {
+    "time": 37.7789,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.332
+  },
+  {
+    "time": 38.0343,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.424
+  },
+  {
+    "time": 38.2897,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.399
+  },
+  {
+    "time": 39.6597,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.454
+  },
+  {
+    "time": 40.0544,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.496
+  },
+  {
+    "time": 40.3098,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.336
+  },
+  {
+    "time": 41.4244,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.357
+  },
+  {
+    "time": 42.0513,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.64
+  },
+  {
+    "time": 42.3068,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.436
+  },
+  {
+    "time": 43.8161,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.398
+  },
+  {
+    "time": 44.3037,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.58
+  },
+  {
+    "time": 44.5591,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.613
+  },
+  {
+    "time": 46.3238,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.698
+  },
+  {
+    "time": 48.2975,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.694
+  },
+  {
+    "time": 49.296,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.375
+  },
+  {
+    "time": 49.8068,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.304
+  },
+  {
+    "time": 52.2681,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.329
+  },
+  {
+    "time": 53.0576,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.408
+  },
+  {
+    "time": 53.7774,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.562
+  },
+  {
+    "time": 56.053,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.668
+  },
+  {
+    "time": 56.3084,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.403
+  },
+  {
+    "time": 58.0499,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.37
+  },
+  {
+    "time": 59.5592,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.357
+  },
+  {
+    "time": 60.0468,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.42
+  },
+  {
+    "time": 60.3022,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.693
+  },
+  {
+    "time": 61.5561,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.276
+  },
+  {
+    "time": 61.8115,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.433
+  },
+  {
+    "time": 65.8054,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.328
+  },
+  {
+    "time": 68.2667,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.416
+  },
+  {
+    "time": 68.8007,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.642
+  },
+  {
+    "time": 69.7992,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.534
+  },
+  {
+    "time": 72.0515,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.363
+  },
+  {
+    "time": 72.3069,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.26
+  },
+  {
+    "time": 72.5391,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.381
+  },
+  {
+    "time": 73.5608,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.229
+  },
+  {
+    "time": 74.0252,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.645
+  },
+  {
+    "time": 74.2574,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.35
+  },
+  {
+    "time": 75.5345,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.326
+  },
+  {
+    "time": 76.2543,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.42
+  },
+  {
+    "time": 77.2992,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.602
+  },
+  {
+    "time": 77.7868,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.505
+  },
+  {
+    "time": 80.55,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.487
+  },
+  {
+    "time": 86.564,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.582
+  },
+  {
+    "time": 88.0268,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.33
+  },
+  {
+    "time": 88.3055,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.554
+  },
+  {
+    "time": 88.5609,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.803
+  },
+  {
+    "time": 90.5114,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.535
+  },
+  {
+    "time": 92.5083,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.468
+  },
+  {
+    "time": 94.5284,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.479
+  },
+  {
+    "time": 95.1786,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.379
+  },
+  {
+    "time": 95.8055,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.695
+  },
+  {
+    "time": 96.0377,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.245
+  },
+  {
+    "time": 96.5021,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.559
+  },
+  {
+    "time": 97.1987,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.615
+  },
+  {
+    "time": 98.5687,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 1.019
+  },
+  {
+    "time": 99.1956,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.79
+  },
+  {
+    "time": 100.5424,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.651
+  },
+  {
+    "time": 102.3071,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.582
+  },
+  {
+    "time": 102.5625,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.511
+  },
+  {
+    "time": 102.9341,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.566
+  },
+  {
+    "time": 104.0718,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.272
+  },
+  {
+    "time": 104.3273,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.456
+  },
+  {
+    "time": 105.1864,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.422
+  },
+  {
+    "time": 106.4635,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.412
+  },
+  {
+    "time": 106.9047,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.531
+  },
+  {
+    "time": 107.1833,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.798
+  },
+  {
+    "time": 108.3211,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.656
+  },
+  {
+    "time": 108.9016,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.5
+  },
+  {
+    "time": 109.4356,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.729
+  },
+  {
+    "time": 110.318,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.8
+  },
+  {
+    "time": 110.9217,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.392
+  },
+  {
+    "time": 111.1771,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.466
+  },
+  {
+    "time": 111.3861,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.31
+  },
+  {
+    "time": 112.8025,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.731
+  },
+  {
+    "time": 113.5688,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.263
+  },
+  {
+    "time": 113.801,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.262
+  },
+  {
+    "time": 114.01,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.502
+  },
+  {
+    "time": 114.2886,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.45
+  },
+  {
+    "time": 115.7979,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.258
+  },
+  {
+    "time": 116.2855,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.435
+  },
+  {
+    "time": 116.5642,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.538
+  },
+  {
+    "time": 116.7964,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.485
+  },
+  {
+    "time": 117.7948,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.273
+  },
+  {
+    "time": 118.0735,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.319
+  },
+  {
+    "time": 118.3057,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.323
+  },
+  {
+    "time": 118.5611,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.467
+  },
+  {
+    "time": 118.7933,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.528
+  },
+  {
+    "time": 119.815,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.413
+  },
+  {
+    "time": 120.3026,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.346
+  },
+  {
+    "time": 120.558,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.439
+  },
+  {
+    "time": 121.5565,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.305
+  },
+  {
+    "time": 121.7887,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.277
+  },
+  {
+    "time": 122.2763,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.537
+  },
+  {
+    "time": 122.6942,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.342
+  },
+  {
+    "time": 124.2964,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.401
+  },
+  {
+    "time": 124.5286,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.445
+  },
+  {
+    "time": 124.8073,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.535
+  },
+  {
+    "time": 125.8057,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.515
+  },
+  {
+    "time": 126.0147,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.491
+  },
+  {
+    "time": 126.2933,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.404
+  },
+  {
+    "time": 126.5488,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.302
+  },
+  {
+    "time": 126.8042,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.594
+  },
+  {
+    "time": 127.8026,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.272
+  },
+  {
+    "time": 128.2902,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.494
+  },
+  {
+    "time": 128.8011,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.602
+  },
+  {
+    "time": 129.5441,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.291
+  },
+  {
+    "time": 129.7995,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.278
+  },
+  {
+    "time": 130.055,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.404
+  },
+  {
+    "time": 130.2872,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.516
+  },
+  {
+    "time": 130.798,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.596
+  },
+  {
+    "time": 131.541,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.288
+  },
+  {
+    "time": 132.0519,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.754
+  },
+  {
+    "time": 132.3073,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.373
+  },
+  {
+    "time": 132.5395,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.332
+  },
+  {
+    "time": 132.7949,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.584
+  },
+  {
+    "time": 134.072,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.28
+  },
+  {
+    "time": 134.3042,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.461
+  },
+  {
+    "time": 135.2795,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.581
+  },
+  {
+    "time": 136.3011,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.416
+  },
+  {
+    "time": 136.5101,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.312
+  },
+  {
+    "time": 137.8104,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.221
+  },
+  {
+    "time": 138.298,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.494
+  },
+  {
+    "time": 139.8073,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.356
+  },
+  {
+    "time": 140.5272,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.34
+  },
+  {
+    "time": 140.8058,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.526
+  },
+  {
+    "time": 141.1773,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.458
+  },
+  {
+    "time": 141.8043,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.334
+  },
+  {
+    "time": 142.0597,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.491
+  },
+  {
+    "time": 142.5473,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.569
+  },
+  {
+    "time": 142.8027,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.499
+  },
+  {
+    "time": 143.151,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.393
+  },
+  {
+    "time": 143.8012,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.359
+  },
+  {
+    "time": 144.312,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.614
+  },
+  {
+    "time": 145.682,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 1.079
+  },
+  {
+    "time": 146.0535,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.401
+  },
+  {
+    "time": 146.3089,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.854
+  },
+  {
+    "time": 147.6789,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 1.251
+  },
+  {
+    "time": 147.9343,
+    "type": "arrow",
+    "x": 582.9,
+    "y": 140,
+    "strength": 0.356
+  },
+  {
+    "time": 148.1898,
+    "type": "diamond",
+    "x": 414.4,
+    "y": 175,
+    "strength": 0.295
+  },
+  {
+    "time": 149.6062,
+    "type": "orb",
+    "x": 263.4,
+    "y": 70,
+    "strength": 0.797
+  },
+  {
+    "time": 149.8151,
+    "type": "cross",
+    "x": 143.0,
+    "y": 105,
+    "strength": 0.245
+  },
+  {
+    "time": 150.0473,
+    "type": "diamond",
+    "x": 210.1,
+    "y": 140,
+    "strength": 0.588
+  },
+  {
+    "time": 150.326,
+    "type": "orb",
+    "x": 263.4,
+    "y": 175,
+    "strength": 0.351
+  },
+  {
+    "time": 151.696,
+    "type": "arrow",
+    "x": 404.5,
+    "y": 70,
+    "strength": 0.844
+  },
+  {
+    "time": 151.9282,
+    "type": "diamond",
+    "x": 553.9,
+    "y": 105,
+    "strength": 0.445
+  },
+  {
+    "time": 152.2997,
+    "type": "orb",
+    "x": 689.8,
+    "y": 140,
+    "strength": 0.743
+  },
+  {
+    "time": 153.809,
+    "type": "cross",
+    "x": 770.0,
+    "y": 175,
+    "strength": 0.387
+  },
+  {
+    "time": 154.0644,
+    "type": "diamond",
+    "x": 700.0,
+    "y": 70,
+    "strength": 0.229
+  },
+  {
+    "time": 155.8059,
+    "type": "orb",
+    "x": 689.8,
+    "y": 105,
+    "strength": 0.498
+  }
+]

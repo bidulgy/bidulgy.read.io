@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rhythm Soul - Battle Rhythm Prototype</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<main>
+  <h1>Rhythm Soul</h1>
+
+  <div id="stage">
+    <img
+      id="battleImage"
+      src="assets/battle-reference.png"
+      alt="전투 화면"
+    >
+
+    <div id="beatFlash"></div>
+    <div id="timing">READY</div>
+  </div>
+
+  <div class="controls">
+    <button id="start">음악 시작</button>
+    <button id="hit">리듬 방어 (아무 키)</button>
+  </div>
+
+  <p id="status">
+    음악의 박자에 맞춰 아무 키나 눌러 방어하세요.
+  </p>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>
