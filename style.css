@@ -4,37 +4,38 @@ html,body{margin:0;min-height:100%;background:#050505;color:#fff;font-family:"Co
 body{display:flex;justify-content:center}
 main{width:min(760px,96vw);padding:14px;text-align:center}
 .battle-hud{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:8px}
-h1{margin:0;font-size:clamp(20px,4vw,28px);letter-spacing:0}
-.stats{display:flex;gap:18px;font-size:15px;white-space:nowrap}
+h1{margin:0;font-size:clamp(20px,4vw,28px)}
+.stats{display:flex;gap:20px;font-size:15px;white-space:nowrap}
 #stage{position:relative;background:#000;border:4px solid #fff;min-height:580px;overflow:hidden}
-#enemyArea{position:relative;height:300px;border-bottom:2px solid #444;overflow:hidden}
-#battleImage{display:block;width:auto;height:250px;max-width:70%;margin:18px auto 0;object-fit:contain;image-rendering:pixelated;filter:none;animation:sans-idle 1.1s steps(2,end) infinite}
+#enemyArea{position:relative;height:300px;border-bottom:2px solid #333;overflow:hidden}
+#battleImage{display:block;width:auto;height:244px;max-width:68%;margin:28px auto 0;object-fit:contain;image-rendering:pixelated;animation:sans-idle 1.1s steps(2,end) infinite}
 @keyframes sans-idle{50%{transform:translateY(-3px)}}
-#timing{position:absolute;top:16px;left:50%;z-index:8;transform:translateX(-50%);font-size:28px;font-weight:bold;text-shadow:3px 3px #000;pointer-events:none}
+#speech{position:absolute;z-index:12;left:64%;top:34px;display:none;min-width:190px;max-width:30%;padding:18px 16px;background:#fff;border:4px solid #000;color:#000;font:bold 17px/1.45 "Courier New",monospace;text-align:left;box-shadow:0 0 0 3px #fff}
+#speech::before{content:"";position:absolute;left:-24px;top:54px;border:12px solid transparent;border-right-color:#fff}
+#speech.show{display:block}
+#timing{position:absolute;top:12px;left:50%;z-index:14;transform:translateX(-50%);font-size:28px;font-weight:bold;text-shadow:3px 3px #000;pointer-events:none}
 #attackLayer{position:absolute;inset:0;z-index:4;pointer-events:none}
 #soulBox{position:relative;width:min(560px,88%);height:220px;margin:28px auto;border:4px solid #fff;background:#000;overflow:hidden}
-#soul{position:absolute;z-index:5;width:24px;height:24px;color:#f22;font:26px/24px Arial,sans-serif;transform:translate(-50%,-50%);filter:drop-shadow(0 0 4px #f00)}
-#shield{position:absolute;z-index:4;width:48px;height:48px;border:5px solid #42e5ff;border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;box-shadow:0 0 12px #42e5ff;pointer-events:none}
-#shield.active{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#shield.cooldown{border-color:#555;box-shadow:none}
-.bone{position:absolute;z-index:6;width:14px;height:68px;background:#fff;border:3px solid #000;border-radius:8px;box-shadow:0 0 0 2px #fff;transform-origin:center}
+#soul{position:absolute;left:50%;top:50%;z-index:8;width:24px;height:24px;color:#f22;font:26px/24px Arial,sans-serif;transform:translate(-50%,-50%);filter:drop-shadow(0 0 4px #f00)}
+.bone{position:absolute;z-index:6;width:14px;height:70px;background:#fff;border:3px solid #000;border-radius:7px;box-shadow:0 0 0 2px #fff;transform:translate(-50%,-50%)}
+.bone.horizontal{transform:translate(-50%,-50%) rotate(90deg)}
 .bone::before,.bone::after{content:"";position:absolute;left:-5px;width:18px;height:9px;background:#fff;border:3px solid #000;border-radius:6px}
 .bone::before{top:-7px}.bone::after{bottom:-7px}
-.blaster{position:absolute;z-index:7;width:78px;height:56px;border:4px solid #fff;background:#000;border-radius:48% 52% 36% 36%;opacity:0;transform:scale(.65);transition:opacity .12s,transform .12s}
-.blaster::before,.blaster::after{content:"";position:absolute;top:15px;width:12px;height:12px;background:#fff;border-radius:50%}
-.blaster::before{left:14px}.blaster::after{right:14px}
-.blaster.show{opacity:1;transform:scale(1)}
-.beam{position:absolute;z-index:5;background:#fff;box-shadow:0 0 12px #fff;opacity:0}
-.beam.warning{opacity:.22}.beam.fire{opacity:1}
+.beam{position:absolute;z-index:7;background:#fff;box-shadow:0 0 14px #fff;opacity:.2}
+.beam.fire{opacity:1}
+.blaster{position:absolute;z-index:9;width:72px;height:52px;border:4px solid #fff;background:#000;border-radius:50% 50% 38% 38%;transform:translate(-50%,-50%)}
+.blaster::before,.blaster::after{content:"";position:absolute;top:14px;width:11px;height:11px;background:#fff;border-radius:50%}
+.blaster::before{left:13px}.blaster::after{right:13px}
+.danger-line{position:absolute;z-index:5;background:#fff;opacity:.18}
 #beatFlash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:20}
+#clearScreen{position:absolute;inset:0;z-index:30;display:none;place-content:center;background:rgba(0,0,0,.92)}
+#clearScreen.show{display:grid}
+#clearScreen b{font-size:54px;color:#ff0;text-shadow:4px 4px #b60}
+#clearScreen span{margin-top:12px;font-size:18px}
 .controls{display:flex;gap:10px;justify-content:center;margin:12px 0}
 button{min-width:130px;background:#111;color:#fff;border:3px solid #fff;padding:10px 16px;font:bold 16px monospace;cursor:pointer}
 button:hover,button:focus-visible{background:#fff;color:#000;outline:none}
-.defense-row{display:grid;grid-template-columns:auto 1fr 72px;align-items:center;gap:10px;text-align:left}
-.cooldown-track{height:12px;border:2px solid #fff;background:#111}
-#cooldownFill{height:100%;width:100%;background:#42e5ff;transform-origin:left}
-#defenseState{text-align:right;color:#42e5ff}
-#status{min-height:22px;margin:10px 0 0;font-size:15px}
+#status{min-height:22px;margin:8px 0 0;font-size:15px}
 .hit{animation:stage-hit .18s steps(2,end)}
 @keyframes stage-hit{50%{transform:translateX(8px);filter:invert(1)}}
-@media(max-width:560px){main{padding:8px}.battle-hud{align-items:start}.stats{gap:8px;font-size:12px;flex-direction:column;text-align:right}#stage{min-height:500px}#enemyArea{height:240px}#battleImage{height:205px;margin-top:14px}#soulBox{height:200px;margin:22px auto;width:92%}#timing{font-size:22px}}
+@media(max-width:560px){main{padding:8px}.battle-hud{align-items:start}.stats{font-size:12px;flex-direction:column;gap:4px;text-align:right}#stage{min-height:510px}#enemyArea{height:245px}#battleImage{height:196px;margin-top:36px}#speech{left:auto;right:10px;top:15px;min-width:150px;max-width:44%;padding:12px;font-size:13px}#speech::before{display:none}#soulBox{height:205px;margin:22px auto;width:92%}#timing{font-size:22px}}

@@ -12,32 +12,27 @@
     <h1>RHYTHM SOUL</h1>
     <div class="stats">
       <span>HP <b id="hp">20</b>/20</span>
-      <span>SCORE <b id="score">0</b></span>
-      <span>COMBO <b id="combo">0</b></span>
+      <span id="time">0:00 / 2:36</span>
     </div>
   </header>
   <section id="stage" aria-label="샌즈 리듬 전투">
     <div id="enemyArea">
       <img id="battleImage" src="assets/sans-character.png" alt="샌즈">
+      <div id="speech" role="status"><span id="speechText"></span></div>
       <div id="attackLayer" aria-hidden="true"></div>
       <div id="timing">READY</div>
     </div>
     <div id="soulBox" aria-label="영혼 전투 구역">
       <div id="soul" aria-label="플레이어 영혼">♥</div>
-      <div id="shield" aria-hidden="true"></div>
     </div>
     <div id="beatFlash"></div>
+    <div id="clearScreen"><b>CLEAR</b><span>끝까지 살아남았습니다.</span></div>
   </section>
   <div class="controls">
     <button id="start">전투 시작</button>
     <button id="defend">방어</button>
   </div>
-  <div class="defense-row">
-    <span>DEF</span>
-    <div class="cooldown-track"><div id="cooldownFill"></div></div>
-    <b id="defenseState">READY</b>
-  </div>
-  <p id="status">방향키/WASD로 이동하고, 다른 아무 키로 공격을 막으세요.</p>
+  <p id="status">영혼은 움직이지 않습니다. 공격이 닿는 순간 아무 키나 누르세요.</p>
 </main>
 <script src="game.js"></script>
 </body>

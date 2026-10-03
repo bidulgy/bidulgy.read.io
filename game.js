@@ -1,243 +1,269 @@
 const MAX_HP = 20;
-const DEFENSE_MS = 190;
-const EMPTY_DEFENSE_COOLDOWN_MS = 1000;
-const MOVE_SPEED = 230;
+const GUARD_MS = 180;
+const EMPTY_GUARD_LOCK_MS = 1000;
+const TELEGRAPH_SECONDS = 0.72;
 
 const els = {
-  stage: document.getElementById("stage"), enemy: document.getElementById("enemyArea"),
-  box: document.getElementById("soulBox"), soul: document.getElementById("soul"),
-  shield: document.getElementById("shield"), attacks: document.getElementById("attackLayer"),
-  timing: document.getElementById("timing"), flash: document.getElementById("beatFlash"),
-  hp: document.getElementById("hp"), score: document.getElementById("score"),
-  combo: document.getElementById("combo"), status: document.getElementById("status"),
-  defenseState: document.getElementById("defenseState"), cooldown: document.getElementById("cooldownFill")
+  stage: document.getElementById("stage"), box: document.getElementById("soulBox"),
+  attacks: document.getElementById("attackLayer"), timing: document.getElementById("timing"),
+  flash: document.getElementById("beatFlash"), hp: document.getElementById("hp"),
+  time: document.getElementById("time"), status: document.getElementById("status"),
+  speech: document.getElementById("speech"), speechText: document.getElementById("speechText"),
+  clear: document.getElementById("clearScreen"), start: document.getElementById("start"),
+  defend: document.getElementById("defend")
 };
 
 let audio;
-let playing = false;
+let audioContext;
+let chart = [];
+let state = "idle";
 let hp = MAX_HP;
-let score = 0;
-let combo = 0;
-let soul = { x: 0.5, y: 0.5 };
+let chartIndex = 0;
 let attacks = [];
-let keys = new Set();
-let lastFrame = performance.now();
-let nextAttackAt = 0;
-let attackCount = 0;
-let defenseUntil = 0;
-let cooldownUntil = 0;
-let defenseBlocked = false;
+let guardUntil = 0;
+let guardBlocked = false;
+let lockUntil = 0;
+
+fetch("chart.json").then(response => response.json()).then(data => { chart = data; }).catch(() => { chart = []; });
+
+function tone(frequency, duration = .06, type = "square", volume = .035, delay = 0) {
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  const startAt = audioContext.currentTime + delay;
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startAt);
+  gain.gain.setValueAtTime(volume, startAt);
+  gain.gain.exponentialRampToValueAtTime(.0001, startAt + duration);
+  oscillator.connect(gain).connect(audioContext.destination);
+  oscillator.start(startAt);
+  oscillator.stop(startAt + duration);
+}
+
+function playGuardSound(kind) {
+  if (kind === "press") tone(760, .045, "square", .022);
+  if (kind === "block") { tone(1040, .08, "square", .04); tone(1560, .09, "square", .025, .025); }
+  if (kind === "locked") tone(130, .11, "sawtooth", .025);
+  if (kind === "hurt") tone(85, .16, "square", .045);
+}
+
+function clearAttacks() {
+  attacks.forEach(attack => attack.elements.forEach(element => element.remove()));
+  attacks = [];
+}
 
 function resetBattle() {
-  attacks.forEach(attack => { attack.el.remove(); attack.blaster?.remove(); });
-  attacks = [];
-  hp = MAX_HP; score = 0; combo = 0; attackCount = 0;
-  soul = { x: 0.5, y: 0.5 };
-  cooldownUntil = defenseUntil = 0;
-  els.shield.className = "";
-  updateHud();
+  clearAttacks();
+  hp = MAX_HP;
+  chartIndex = 0;
+  guardUntil = lockUntil = 0;
+  els.hp.textContent = hp;
+  els.time.textContent = "0:00 / 2:36";
+  els.timing.textContent = "READY";
+  els.clear.classList.remove("show");
+}
+
+function typeSpeech(text, index = 0) {
+  els.speechText.textContent = text.slice(0, index);
+  if (index <= text.length) {
+    if (index) tone(210 + index * 7, .025, "square", .012);
+    setTimeout(() => typeSpeech(text, index + 1), 95);
+  }
 }
 
 function start() {
+  if (state === "dialogue" || state === "playing") return;
+  document.activeElement?.blur();
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  audioContext.resume();
   if (!audio) {
     audio = new Audio("assets/sans.mp3");
-    audio.loop = true;
-    audio.volume = 0.7;
+    audio.volume = .72;
+    audio.addEventListener("ended", clearBattle);
   }
   resetBattle();
+  audio.pause();
   audio.currentTime = 0;
+  state = "dialogue";
+  els.speech.classList.add("show");
+  typeSpeech("준비됐어?");
+  els.status.textContent = "샌즈가 공격을 준비하고 있습니다.";
+  setTimeout(beginMusic, 1900);
+}
+
+function beginMusic() {
+  if (state !== "dialogue") return;
+  els.speech.classList.remove("show");
+  state = "playing";
+  els.timing.textContent = "";
+  els.status.textContent = "공격이 닿는 순간 아무 키나 누르세요.";
   audio.play().catch(() => {});
-  playing = true;
-  nextAttackAt = performance.now() + 850;
-  els.timing.textContent = "READY";
-  els.status.textContent = "공격을 보고 방어하세요.";
+  spawnOpeningAttack();
 }
 
-function defend() {
+function defend(event) {
+  event?.preventDefault();
+  document.activeElement?.blur();
+  if (state !== "playing") return;
   const now = performance.now();
-  if (!playing || now < cooldownUntil || now < defenseUntil) return;
-  defenseUntil = now + DEFENSE_MS;
-  defenseBlocked = false;
-  els.shield.classList.add("active");
-  els.defenseState.textContent = "GUARD";
+  if (now < lockUntil) { playGuardSound("locked"); return; }
+  if (now < guardUntil) return;
+  guardUntil = now + GUARD_MS;
+  guardBlocked = false;
+  playGuardSound("press");
 }
 
-function finishDefense(now) {
-  if (!defenseUntil || now < defenseUntil) return;
-  defenseUntil = 0;
-  els.shield.classList.remove("active");
-  if (!defenseBlocked) {
-    cooldownUntil = now + EMPTY_DEFENSE_COOLDOWN_MS;
-    els.shield.classList.add("cooldown");
-    els.defenseState.textContent = "LOCK";
-    els.status.textContent = "헛방어! 1초 동안 방어할 수 없습니다.";
-  } else {
-    els.defenseState.textContent = "READY";
-  }
+function finishGuard(now) {
+  if (!guardUntil || now < guardUntil) return;
+  guardUntil = 0;
+  if (!guardBlocked) lockUntil = now + EMPTY_GUARD_LOCK_MS;
 }
 
-function spawnBone() {
-  const box = els.box.getBoundingClientRect();
-  const fromLeft = attackCount % 2 === 0;
-  const el = document.createElement("div");
-  el.className = "bone";
-  els.box.appendChild(el);
-  const y = 18 + Math.random() * Math.max(20, box.height - 100);
-  attacks.push({ type: "bone", el, x: fromLeft ? -28 : box.width + 28, y, vx: fromLeft ? 255 : -255, w: 20, h: 78, hit: false });
+function makeBone(horizontal = false) {
+  const bone = document.createElement("div");
+  bone.className = `bone${horizontal ? " horizontal" : ""}`;
+  els.box.appendChild(bone);
+  return bone;
 }
 
-function spawnBlaster() {
-  const box = els.box.getBoundingClientRect();
-  const horizontal = attackCount % 8 === 4;
-  const lane = horizontal ? soul.y * box.height : soul.x * box.width;
+function makeBlaster() {
   const blaster = document.createElement("div");
   blaster.className = "blaster";
-  els.attacks.appendChild(blaster);
+  els.box.appendChild(blaster);
+  return blaster;
+}
+
+function makeBeam(horizontal) {
   const beam = document.createElement("div");
-  beam.className = "beam warning";
+  beam.className = "beam";
+  beam.style.cssText = horizontal ? "left:0;top:calc(50% - 9px);width:100%;height:18px" : "top:0;left:calc(50% - 9px);width:18px;height:100%";
   els.box.appendChild(beam);
-  if (horizontal) {
-    blaster.style.cssText = "right:18px;bottom:2px;transform:rotate(-90deg) scale(.65)";
-    beam.style.cssText = `left:0;top:${lane - 9}px;width:100%;height:18px`;
+  return beam;
+}
+
+function spawnPattern(note, impactTime) {
+  const box = els.box.getBoundingClientRect();
+  const center = { x: box.width / 2, y: box.height / 2 };
+  const elements = [];
+  const tracks = [];
+  const pattern = note.type || "diamond";
+
+  if (pattern === "orb") {
+    const horizontal = Math.floor(note.time) % 2 === 0;
+    const beam = makeBeam(horizontal);
+    const blaster = makeBlaster();
+    blaster.style.left = horizontal ? `${box.width - 42}px` : `${center.x}px`;
+    blaster.style.top = horizontal ? `${center.y}px` : "30px";
+    if (horizontal) blaster.style.transform = "translate(-50%,-50%) rotate(-90deg)";
+    elements.push(beam, blaster);
   } else {
-    const left = Math.max(0, Math.min(els.enemy.clientWidth - 78, lane + (els.enemy.clientWidth - box.width) / 2 - 39));
-    blaster.style.cssText = `left:${left}px;bottom:2px`;
-    beam.style.cssText = `top:0;left:${lane - 9}px;width:18px;height:100%`;
+    const count = pattern === "cross" ? 4 : pattern === "arrow" ? 3 : 2;
+    for (let i = 0; i < count; i++) {
+      const horizontal = (i + attackSerial) % 2 === 0;
+      const bone = makeBone(horizontal);
+      const side = (i + attackSerial) % 4;
+      const spread = (i - (count - 1) / 2) * 28;
+      const start = side === 0 ? { x: -35, y: center.y + spread } : side === 1 ? { x: center.x + spread, y: -45 } : side === 2 ? { x: box.width + 35, y: center.y + spread } : { x: center.x + spread, y: box.height + 45 };
+      tracks.push({ element: bone, start, end: { x: center.x + spread * .18, y: center.y + spread * .18 } });
+      elements.push(bone);
+    }
   }
-  requestAnimationFrame(() => blaster.classList.add("show"));
-  const now = performance.now();
-  attacks.push({ type: "beam", el: beam, blaster, horizontal, lane, fireAt: now + 520, endAt: now + 820, hit: false });
+  attackSerial++;
+  attacks.push({ elements, tracks, bornAt: performance.now(), impactAt: impactTime, resolved: false, pattern });
 }
 
-function spawnAttack(now) {
-  attackCount++;
-  if (attackCount % 4 === 0) spawnBlaster(); else spawnBone();
-  nextAttackAt = now + Math.max(470, 830 - attackCount * 3);
-  els.flash.style.opacity = ".12";
-  setTimeout(() => els.flash.style.opacity = "0", 65);
+let attackSerial = 0;
+function spawnOpeningAttack() {
+  spawnPattern({ type: "cross", time: 0 }, performance.now() + 720);
 }
 
-function soulRect(box) {
-  return { x: soul.x * box.width - 10, y: soul.y * box.height - 10, w: 20, h: 20 };
-}
-
-function overlaps(a, b) {
-  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-}
-
-function resolveHit(attack, now) {
-  if (attack.hit) return;
-  attack.hit = true;
-  if (now < defenseUntil) {
-    defenseBlocked = true;
-    score += attack.type === "beam" ? 200 : 100;
-    combo++;
+function resolveAttack(attack, now) {
+  if (attack.resolved) return;
+  attack.resolved = true;
+  attack.elements.forEach(element => { if (element.classList.contains("beam")) element.classList.add("fire"); });
+  if (now < guardUntil) {
+    guardBlocked = true;
+    guardUntil = 0;
+    playGuardSound("block");
     els.timing.textContent = "BLOCK";
-    els.status.textContent = "방어 성공!";
-    attack.el.remove();
-    attack.blaster?.remove();
   } else {
-    hp = Math.max(0, hp - (attack.type === "beam" ? 4 : 2));
-    combo = 0;
+    hp = Math.max(0, hp - (attack.pattern === "orb" ? 4 : 2));
+    els.hp.textContent = hp;
+    playGuardSound("hurt");
     els.timing.textContent = "HIT";
     els.stage.classList.remove("hit");
     void els.stage.offsetWidth;
     els.stage.classList.add("hit");
-    if (hp === 0) gameOver();
+    if (!hp) gameOver();
   }
-  updateHud();
-  setTimeout(() => { if (els.timing.textContent !== "GAME OVER") els.timing.textContent = ""; }, 260);
+  setTimeout(() => { if (state === "playing") els.timing.textContent = ""; }, 180);
 }
 
-function updateAttacks(dt, now) {
-  const box = els.box.getBoundingClientRect();
-  const player = soulRect(box);
+function updateAttacks(now) {
+  attacks.forEach(attack => {
+    const travel = Math.max(1, attack.impactAt - attack.bornAt);
+    const progress = Math.max(0, Math.min(1, (now - attack.bornAt) / travel));
+    attack.tracks.forEach(track => {
+      track.element.style.left = `${track.start.x + (track.end.x - track.start.x) * progress}px`;
+      track.element.style.top = `${track.start.y + (track.end.y - track.start.y) * progress}px`;
+    });
+    if (now >= attack.impactAt) resolveAttack(attack, now);
+  });
   attacks = attacks.filter(attack => {
-    if (!attack.el.isConnected) return false;
-    if (attack.type === "bone") {
-      attack.x += attack.vx * dt;
-      attack.el.style.left = `${attack.x}px`;
-      attack.el.style.top = `${attack.y}px`;
-      if (overlaps(player, { x: attack.x, y: attack.y, w: attack.w, h: attack.h })) resolveHit(attack, now);
-      if (attack.x < -90 || attack.x > box.width + 90 || attack.hit) { attack.el.remove(); return false; }
-    } else {
-      if (now >= attack.fireAt) {
-        attack.el.classList.remove("warning");
-        attack.el.classList.add("fire");
-        const struck = attack.horizontal ? Math.abs(soul.y * box.height - attack.lane) < 22 : Math.abs(soul.x * box.width - attack.lane) < 22;
-        if (struck) resolveHit(attack, now);
-      }
-      if (now >= attack.endAt || attack.hit) { attack.el.remove(); attack.blaster.remove(); return false; }
-    }
-    return true;
+    if (now < attack.impactAt + 150) return true;
+    attack.elements.forEach(element => element.remove());
+    return false;
   });
 }
 
-function updateSoul(dt) {
-  let dx = 0, dy = 0;
-  if (keys.has("arrowleft") || keys.has("a")) dx--;
-  if (keys.has("arrowright") || keys.has("d")) dx++;
-  if (keys.has("arrowup") || keys.has("w")) dy--;
-  if (keys.has("arrowdown") || keys.has("s")) dy++;
-  const box = els.box.getBoundingClientRect();
-  if (dx && dy) { dx *= .707; dy *= .707; }
-  soul.x = Math.max(.04, Math.min(.96, soul.x + dx * MOVE_SPEED * dt / box.width));
-  soul.y = Math.max(.07, Math.min(.93, soul.y + dy * MOVE_SPEED * dt / box.height));
-  const left = soul.x * box.width;
-  const top = soul.y * box.height;
-  els.soul.style.left = els.shield.style.left = `${left}px`;
-  els.soul.style.top = els.shield.style.top = `${top}px`;
+function scheduleChart(now) {
+  while (chartIndex < chart.length && chart[chartIndex].time - TELEGRAPH_SECONDS <= audio.currentTime) {
+    const note = chart[chartIndex++];
+    const secondsUntilImpact = Math.max(.08, note.time - audio.currentTime);
+    spawnPattern(note, now + secondsUntilImpact * 1000);
+  }
 }
 
-function updateHud() {
-  els.hp.textContent = hp;
-  els.score.textContent = score;
-  els.combo.textContent = combo;
+function clearBattle() {
+  if (state !== "playing") return;
+  state = "clear";
+  clearAttacks();
+  els.clear.classList.add("show");
+  els.status.textContent = "모든 패턴을 버티고 곡을 끝냈습니다.";
+  tone(660, .16, "square", .035);
+  tone(880, .2, "square", .035, .16);
+  tone(1320, .35, "square", .035, .34);
 }
 
 function gameOver() {
-  playing = false;
-  audio?.pause();
+  state = "gameover";
+  audio.pause();
+  clearAttacks();
   els.timing.textContent = "GAME OVER";
   els.status.textContent = "전투 시작을 눌러 다시 도전하세요.";
 }
 
+function formatTime(seconds) {
+  const value = Math.max(0, Math.floor(seconds || 0));
+  return `${Math.floor(value / 60)}:${String(value % 60).padStart(2, "0")}`;
+}
+
 function loop(now) {
-  const dt = Math.min(.033, (now - lastFrame) / 1000);
-  lastFrame = now;
-  finishDefense(now);
-  if (cooldownUntil) {
-    const remaining = Math.max(0, cooldownUntil - now);
-    els.cooldown.style.transform = `scaleX(${1 - remaining / EMPTY_DEFENSE_COOLDOWN_MS})`;
-    if (!remaining) {
-      cooldownUntil = 0;
-      els.shield.classList.remove("cooldown");
-      els.defenseState.textContent = "READY";
-    }
-  } else {
-    els.cooldown.style.transform = "scaleX(1)";
-  }
-  updateSoul(dt);
-  if (playing) {
-    if (now >= nextAttackAt) spawnAttack(now);
-    updateAttacks(dt, now);
+  finishGuard(now);
+  if (state === "playing") {
+    scheduleChart(now);
+    updateAttacks(now);
+    els.time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 156)}`;
   }
   requestAnimationFrame(loop);
 }
 
-document.getElementById("start").addEventListener("click", start);
-document.getElementById("defend").addEventListener("pointerdown", defend);
+els.start.addEventListener("pointerdown", event => { event.preventDefault(); start(); });
+els.defend.addEventListener("pointerdown", defend);
 addEventListener("keydown", event => {
-  const key = event.key.toLowerCase();
-  if (key === "enter" && !playing) { start(); return; }
-  if (["arrowleft", "arrowright", "arrowup", "arrowdown", "w", "a", "s", "d"].includes(key)) {
-    event.preventDefault();
-    keys.add(key);
-    return;
-  }
-  if (!event.repeat) defend();
+  if (event.repeat) { event.preventDefault(); return; }
+  if (state === "idle" && event.key === "Enter") { event.preventDefault(); start(); return; }
+  if (state === "playing") defend(event);
 });
-addEventListener("keyup", event => keys.delete(event.key.toLowerCase()));
-addEventListener("blur", () => keys.clear());
-updateHud();
+resetBattle();
 requestAnimationFrame(loop);
