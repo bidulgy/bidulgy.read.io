@@ -1,7 +1,8 @@
 const MAX_HP = 20;
-const GUARD_MS = 180;
+const GUARD_MS = 320;
 const EMPTY_GUARD_LOCK_MS = 1000;
 const TELEGRAPH_SECONDS = 0.72;
+const LATE_GUARD_GRACE_MS = 90;
 
 const els = {
   stage: document.getElementById("stage"), box: document.getElementById("soulBox"),
@@ -120,14 +121,18 @@ function finishGuard(now) {
 }
 
 function makeBone(horizontal = false) {
-  const bone = document.createElement("div");
+  const bone = document.createElement("img");
+  bone.src = "assets/bone.png";
+  bone.alt = "";
   bone.className = `bone${horizontal ? " horizontal" : ""}`;
   els.box.appendChild(bone);
   return bone;
 }
 
 function makeBlaster() {
-  const blaster = document.createElement("div");
+  const blaster = document.createElement("img");
+  blaster.src = "assets/gaster-blaster.png";
+  blaster.alt = "";
   blaster.className = "blaster";
   els.box.appendChild(blaster);
   return blaster;
@@ -154,7 +159,7 @@ function spawnPattern(note, impactTime) {
     const blaster = makeBlaster();
     blaster.style.left = horizontal ? `${box.width - 42}px` : `${center.x}px`;
     blaster.style.top = horizontal ? `${center.y}px` : "30px";
-    if (horizontal) blaster.style.transform = "translate(-50%,-50%) rotate(-90deg)";
+    blaster.style.transform = horizontal ? "translate(-50%,-50%) rotate(180deg)" : "translate(-50%,-50%) rotate(90deg)";
     elements.push(beam, blaster);
   } else {
     const count = pattern === "cross" ? 4 : pattern === "arrow" ? 3 : 2;
@@ -207,7 +212,7 @@ function updateAttacks(now) {
       track.element.style.left = `${track.start.x + (track.end.x - track.start.x) * progress}px`;
       track.element.style.top = `${track.start.y + (track.end.y - track.start.y) * progress}px`;
     });
-    if (now >= attack.impactAt) resolveAttack(attack, now);
+    if (now >= attack.impactAt + LATE_GUARD_GRACE_MS) resolveAttack(attack, now);
   });
   attacks = attacks.filter(attack => {
     if (now < attack.impactAt + 150) return true;

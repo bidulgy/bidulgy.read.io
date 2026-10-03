@@ -17,15 +17,11 @@ h1{margin:0;font-size:clamp(20px,4vw,28px)}
 #attackLayer{position:absolute;inset:0;z-index:4;pointer-events:none}
 #soulBox{position:relative;width:min(560px,88%);height:220px;margin:28px auto;border:4px solid #fff;background:#000;overflow:hidden}
 #soul{position:absolute;left:50%;top:50%;z-index:8;width:24px;height:24px;color:#f22;font:26px/24px Arial,sans-serif;transform:translate(-50%,-50%);filter:drop-shadow(0 0 4px #f00)}
-.bone{position:absolute;z-index:6;width:14px;height:70px;background:#fff;border:3px solid #000;border-radius:7px;box-shadow:0 0 0 2px #fff;transform:translate(-50%,-50%)}
+.bone{position:absolute;z-index:6;width:24px;height:94px;object-fit:contain;image-rendering:pixelated;transform:translate(-50%,-50%)}
 .bone.horizontal{transform:translate(-50%,-50%) rotate(90deg)}
-.bone::before,.bone::after{content:"";position:absolute;left:-5px;width:18px;height:9px;background:#fff;border:3px solid #000;border-radius:6px}
-.bone::before{top:-7px}.bone::after{bottom:-7px}
 .beam{position:absolute;z-index:7;background:#fff;box-shadow:0 0 14px #fff;opacity:.2}
 .beam.fire{opacity:1}
-.blaster{position:absolute;z-index:9;width:72px;height:52px;border:4px solid #fff;background:#000;border-radius:50% 50% 38% 38%;transform:translate(-50%,-50%)}
-.blaster::before,.blaster::after{content:"";position:absolute;top:14px;width:11px;height:11px;background:#fff;border-radius:50%}
-.blaster::before{left:13px}.blaster::after{right:13px}
+.blaster{position:absolute;z-index:9;width:112px;height:76px;object-fit:contain;image-rendering:pixelated;transform:translate(-50%,-50%)}
 .danger-line{position:absolute;z-index:5;background:#fff;opacity:.18}
 #beatFlash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:20}
 #clearScreen{position:absolute;inset:0;z-index:30;display:none;place-content:center;background:rgba(0,0,0,.92)}
