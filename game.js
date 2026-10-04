@@ -66,13 +66,40 @@ function drawSans(w,h,now){if(!art.sans.complete)return;const hh=Math.min(165,h*
 function drawArena(w,h){const size=Math.min(w*.48,h*.52),x=w/2-size/2,y=h*.38;ctx.fillStyle="rgba(0,0,0,.78)";ctx.fillRect(x,y,size,size);ctx.strokeStyle="#fff";ctx.lineWidth=5;ctx.strokeRect(x,y,size,size);return{x,y,size,cx:w/2,cy:y+size/2}}
 function drawHeart(x,y){ctx.save();ctx.translate(x,y);ctx.fillStyle="#46d9ff";ctx.shadowBlur=18;ctx.shadowColor="#46d9ff";ctx.beginPath();ctx.moveTo(0,18);ctx.bezierCurveTo(-7,8,-22,-3,-22,-15);ctx.bezierCurveTo(-22,-28,-5,-30,0,-17);ctx.bezierCurveTo(5,-30,22,-28,22,-15);ctx.bezierCurveTo(22,-3,7,8,0,18);ctx.fill();ctx.restore()}
 
-function projectilePosition(shot,arena){const remain=shot.time-audio.currentTime,p=1-Math.max(0,Math.min(1,remain/APPROACH_TIME)),edge=arena.size*.48,r=edge*(1-p);const a=directionAngle[shot.dir];return{x:arena.cx+Math.cos(a)*r,y:arena.cy+Math.sin(a)*r,a,p}}
+function projectilePosition(shot,arena){
+  const remain=shot.time-audio.currentTime;
+  const edge=arena.size*.48,cutRadius=arena.size*.22;
+  let progress,radius;
+  if(remain>=0){progress=1-Math.max(0,Math.min(1,remain/APPROACH_TIME));radius=edge+(cutRadius-edge)*progress}
+  else{progress=1;radius=cutRadius*(1-Math.max(0,Math.min(1,-remain/HIT_WINDOW)))}
+  const a=directionAngle[shot.dir];
+  return{x:arena.cx+Math.cos(a)*radius,y:arena.cy+Math.sin(a)*radius,a,p:progress}
+}
 function drawSpear(x,y,a,color,scale=1){ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.PI);ctx.scale(scale,scale);ctx.shadowBlur=18;ctx.shadowColor=color;ctx.fillStyle="#fff";ctx.strokeStyle="#05050a";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(34,0);ctx.lineTo(11,-13);ctx.lineTo(15,-5);ctx.lineTo(-28,-5);ctx.lineTo(-36,0);ctx.lineTo(-28,5);ctx.lineTo(15,5);ctx.lineTo(11,13);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle=color;ctx.fillRect(-24,-2,47,4);ctx.restore()}
 function drawShots(arena){
   for(const shot of shots){if(shot.cut||shot.missed)continue;const p=projectilePosition(shot,arena);if(shot.type==="orb"&&art.blaster.complete){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a+Math.PI);ctx.imageSmoothingEnabled=false;const s=76+p.p*24;ctx.drawImage(art.blaster,-s*.68,-s*.38,s*1.36,s*.76);ctx.restore()}else drawSpear(p.x,p.y,p.a,directionColor[shot.dir],shot.type==="cross"?1.25:1)}
 }
-function drawDirectionHints(arena){for(const dir of directions){const a=directionAngle[dir],r=arena.size*.36,x=arena.cx+Math.cos(a)*r,y=arena.cy+Math.sin(a)*r;ctx.save();ctx.translate(x,y);ctx.fillStyle="rgba(0,0,0,.72)";ctx.strokeStyle=directionColor[dir];ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,17,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle="#fff";ctx.font="bold 15px Arial";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText({up:"W",left:"A",down:"S",right:"D"}[dir],0,1);ctx.restore()}}
-function drawSlashes(arena){slashes=slashes.filter(s=>{s.life-=.09;if(s.life<=0)return false;const a=directionAngle[s.dir],r=arena.size*.19;ctx.save();ctx.translate(arena.cx+Math.cos(a)*r,arena.cy+Math.sin(a)*r);ctx.rotate(a);ctx.strokeStyle=`rgba(255,255,255,${s.life})`;ctx.lineWidth=8*s.life+2;ctx.shadowBlur=20;ctx.shadowColor=directionColor[s.dir];ctx.beginPath();ctx.arc(0,0,48,-1.1,1.1);ctx.stroke();ctx.restore();return true})}
+function drawDirectionHints(arena){
+  const cutRadius=arena.size*.22;
+  ctx.save();ctx.strokeStyle="rgba(255,255,255,.28)";ctx.lineWidth=2;ctx.setLineDash([5,7]);ctx.beginPath();ctx.arc(arena.cx,arena.cy,cutRadius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+  for(const dir of directions){const a=directionAngle[dir],x=arena.cx+Math.cos(a)*cutRadius,y=arena.cy+Math.sin(a)*cutRadius;ctx.save();ctx.translate(x,y);ctx.fillStyle="rgba(0,0,0,.8)";ctx.strokeStyle=directionColor[dir];ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,15,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle="#fff";ctx.font="bold 13px Arial";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText({up:"W",left:"A",down:"S",right:"D"}[dir],0,1);ctx.restore()}
+}
+function drawSlashes(arena){
+  slashes=slashes.filter(s=>{
+    s.life-=.075;if(s.life<=0)return false;
+    const a=directionAngle[s.dir],r=arena.size*.22;
+    const x=arena.cx+Math.cos(a)*r,y=arena.cy+Math.sin(a)*r;
+    const sweep=(1-s.life)*34-17;
+    ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.PI/4);ctx.translate(sweep,0);ctx.lineCap="round";
+    for(let i=0;i<3;i++){
+      const offset=(i-1)*13;
+      ctx.strokeStyle=`rgba(30,0,4,${s.life*.9})`;ctx.lineWidth=11;ctx.beginPath();ctx.moveTo(-46,offset);ctx.lineTo(46,offset);ctx.stroke();
+      ctx.strokeStyle=`rgba(255,24,49,${s.life})`;ctx.lineWidth=6;ctx.shadowBlur=18;ctx.shadowColor="#ff1831";ctx.beginPath();ctx.moveTo(-48,offset);ctx.lineTo(48,offset);ctx.stroke();
+      ctx.strokeStyle=`rgba(255,235,235,${Math.max(0,s.life-.25)})`;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-42,offset-1);ctx.lineTo(42,offset-1);ctx.stroke();
+    }
+    ctx.restore();return true
+  })
+}
 function drawParticles(arena,dt){particles=particles.filter(p=>{p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life<=0)return false;ctx.save();ctx.globalAlpha=Math.min(1,p.life*2);ctx.translate(arena.cx+p.x,arena.cy+p.y);ctx.rotate(p.angle);ctx.fillStyle=p.color;ctx.fillRect(-p.size*3,-p.size/2,p.size*6,p.size);ctx.restore();return true})}
 
 function loop(now){const dt=Math.min(.033,(now-lastFrame)/1000);lastFrame=now;const r=canvas.getBoundingClientRect(),w=r.width,h=r.height;if(state==="playing"){while(chartIndex<chart.length&&chart[chartIndex].time-audio.currentTime<=APPROACH_TIME)spawnShot(chart[chartIndex],chartIndex++);for(const shot of shots)if(!shot.cut&&!shot.missed&&audio.currentTime-shot.time>HIT_WINDOW)failShot(shot);shots=shots.filter(s=>audio.currentTime-s.time<.7);const d=audio.duration||156;ui.time.textContent=`${Math.floor(audio.currentTime/60)}:${String(Math.floor(audio.currentTime%60)).padStart(2,"0")}`;ui.progress.style.width=`${audio.currentTime/d*100}%`}ctx.save();if(shake>.2){ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=.82}drawBackground(w,h);drawSans(w,h,now);const arena=drawArena(w,h);drawDirectionHints(arena);drawShots(arena);drawHeart(arena.cx,arena.cy);drawSlashes(arena);drawParticles(arena,dt);if(flash>.01){ctx.fillStyle=`rgba(255,255,255,${flash})`;ctx.fillRect(0,0,w,h);flash*=.72}ctx.restore();requestAnimationFrame(loop)}
