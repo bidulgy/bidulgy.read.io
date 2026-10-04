@@ -85,6 +85,40 @@ function bell(frequency = 1180, strength = 1) {
   });
 }
 
+function blasterCharge() {
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  const now = audioContext.currentTime;
+  const master = audioContext.createGain();
+  master.gain.setValueAtTime(.0001, now);
+  master.gain.exponentialRampToValueAtTime(.045, now + .05);
+  master.gain.exponentialRampToValueAtTime(.0001, now + .68);
+  master.connect(audioContext.destination);
+  [["sawtooth", 105, 920, .56], ["square", 58, 460, .28]].forEach(([type, from, to, level]) => {
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(from, now);
+    osc.frequency.exponentialRampToValueAtTime(to, now + .62);
+    gain.gain.setValueAtTime(level, now);
+    osc.connect(gain).connect(master);
+    osc.start(now); osc.stop(now + .7);
+  });
+}
+
+function blasterFire() {
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  const now = audioContext.currentTime;
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  osc.type = "sawtooth";
+  osc.frequency.setValueAtTime(190, now);
+  osc.frequency.exponentialRampToValueAtTime(42, now + .24);
+  gain.gain.setValueAtTime(.07, now);
+  gain.gain.exponentialRampToValueAtTime(.0001, now + .26);
+  osc.connect(gain).connect(audioContext.destination);
+  osc.start(now); osc.stop(now + .27);
+}
+
 function reset() {
   notes = []; particles = []; rings = []; chartIndex = 0;
   sync = 100; boss = 100; chain = 0; bestChain = 0; overdrive = 0; overdriveUntil = 0;
@@ -126,6 +160,7 @@ function noteColor(type) {
 function spawnNote(data) {
   const angle = ((data.x || 0) / 820) * Math.PI * 2 - Math.PI / 2;
   notes.push({ time: data.time, type: data.type, angle, color: noteColor(data.type), judged: false });
+  if (data.type === "orb") blasterCharge();
 }
 
 function pulse(event) {
@@ -163,6 +198,7 @@ function pulse(event) {
   showJudge(perfect ? "PERFECT" : "SYNC", candidate.color);
   bell(perfect ? 1320 : 940, perfect ? 1 : .68);
   if (perfect) setTimeout(() => bell(1980, .38), 42);
+  if (candidate.type === "orb") blasterFire();
   if (overdrive >= 100 && performance.now() >= overdriveUntil) activateOverdrive();
   updateHud();
 }
@@ -186,6 +222,7 @@ function miss(note) {
   shake = 15; flash = .22;
   showJudge("BREAK", "#ff3f62");
   tone(75, .16, "sawtooth", .04);
+  if (note.type === "orb") blasterFire();
   updateHud();
   if (!sync) finish(false);
 }
@@ -263,6 +300,27 @@ function drawBoss(w, h, now) {
   ctx.restore();
 }
 
+function drawBoneProjectile(width, height) {
+  const bodyWidth = width * .48;
+  const endY = height * .36;
+  ctx.fillStyle = "#050505";
+  ctx.beginPath(); ctx.roundRect(-bodyWidth / 2 - 3, -endY, bodyWidth + 6, endY * 2, 6); ctx.fill();
+  for (const y of [-endY, endY]) {
+    for (const x of [-width * .22, width * .22]) {
+      ctx.beginPath(); ctx.arc(x, y, width * .22 + 3, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  ctx.fillStyle = "#fff";
+  ctx.beginPath(); ctx.roundRect(-bodyWidth / 2, -endY, bodyWidth, endY * 2, 4); ctx.fill();
+  for (const y of [-endY, endY]) {
+    for (const x of [-width * .22, width * .22]) {
+      ctx.beginPath(); ctx.arc(x, y, width * .22, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  ctx.fillStyle = "#cfd1d4";
+  ctx.fillRect(-bodyWidth * .28, -endY + 5, Math.max(3, bodyWidth * .18), endY * 2 - 10);
+}
+
 function drawNotes(cx, cy, w, h, time) {
   const outer = Math.min(w, h) * .46;
   const hitRadius = 62;
@@ -274,7 +332,7 @@ function drawNotes(cx, cy, w, h, time) {
     const visualRadius = note.type === "orb" ? outer * .78 : radius;
     const x = cx + Math.cos(note.angle) * visualRadius;
     const y = cy + Math.sin(note.angle) * visualRadius;
-    if (note.type === "cross" && art.bone.complete) {
+    if (note.type === "cross") {
       for (const angleOffset of [0, Math.PI / 2]) {
         const attackAngle = note.angle + angleOffset;
         const boneX = cx + Math.cos(attackAngle) * radius;
@@ -285,7 +343,7 @@ function drawNotes(cx, cy, w, h, time) {
         ctx.imageSmoothingEnabled = false;
         ctx.shadowBlur = 16;
         ctx.shadowColor = note.color;
-        ctx.drawImage(art.bone, -23, -35, 46, 70);
+        drawBoneProjectile(52, 68);
         ctx.restore();
       }
       continue;
@@ -313,13 +371,13 @@ function drawNotes(cx, cy, w, h, time) {
     if (note.type === "orb" && art.blaster.complete) {
       const size = 92 + t * 32;
       ctx.drawImage(art.blaster, -size * .68, -size * .38, size * 1.36, size * .76);
-    } else if (art.bone.complete) {
+    } else {
       const bh = 64;
-      const bw = 42;
-      ctx.drawImage(art.bone, -bw / 2, -bh / 2, bw, bh);
+      const bw = 48;
+      drawBoneProjectile(bw, bh);
       if (note.type === "arrow") {
-        ctx.drawImage(art.bone, 29, -30, 38, 60);
-        ctx.drawImage(art.bone, -67, -30, 38, 60);
+        ctx.save(); ctx.translate(48, 0); drawBoneProjectile(42, 58); ctx.restore();
+        ctx.save(); ctx.translate(-48, 0); drawBoneProjectile(42, 58); ctx.restore();
       }
     }
     ctx.restore();
