@@ -27,6 +27,17 @@ let shake = 0;
 let flash = 0;
 let lastFrame = performance.now();
 
+const art = {};
+for (const [name, src] of Object.entries({
+  background: "assets/judgment-hall.png",
+  sans: "assets/sans-character.png",
+  bone: "assets/bone.png",
+  blaster: "assets/gaster-blaster.png"
+})) {
+  art[name] = new Image();
+  art[name].src = src;
+}
+
 fetch("chart.json").then(r => r.json()).then(data => { chart = data; });
 
 function resize() {
@@ -88,7 +99,7 @@ function start() {
 }
 
 function noteColor(type) {
-  return type === "orb" ? "#35f2ff" : type === "cross" ? "#ff3f9b" : type === "arrow" ? "#ffe45c" : "#9b70ff";
+  return type === "orb" ? "#55dfff" : type === "cross" ? "#ffffff" : type === "arrow" ? "#ffd84d" : "#ffffff";
 }
 
 function spawnNote(data) {
@@ -187,44 +198,42 @@ function finish(won) {
 }
 
 function drawBackground(w, h, now) {
-  const live = now < overdriveUntil;
-  const gradient = ctx.createRadialGradient(w / 2, h * .54, 20, w / 2, h * .54, Math.max(w, h) * .65);
-  gradient.addColorStop(0, live ? "#342300" : "#10152c");
-  gradient.addColorStop(1, "#05050a");
-  ctx.fillStyle = gradient; ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = live ? "rgba(255,228,92,.18)" : "rgba(53,242,255,.1)";
-  ctx.lineWidth = 1;
-  for (let r = 100; r < Math.max(w, h); r += 56) {
-    ctx.beginPath(); ctx.arc(w / 2, h * .54, r + Math.sin(now / 300 + r) * 3, 0, Math.PI * 2); ctx.stroke();
+  if (art.background.complete) {
+    const imageRatio = art.background.width / art.background.height;
+    const viewRatio = w / h;
+    let sw = art.background.width, sh = art.background.height, sx = 0, sy = 0;
+    if (imageRatio > viewRatio) { sw = art.background.height * viewRatio; sx = (art.background.width - sw) / 2; }
+    else { sh = art.background.width / viewRatio; sy = (art.background.height - sh) / 2; }
+    ctx.drawImage(art.background, sx, sy, sw, sh, 0, 0, w, h);
+  } else {
+    ctx.fillStyle = "#100b13"; ctx.fillRect(0, 0, w, h);
   }
+  ctx.fillStyle = now < overdriveUntil ? "rgba(44,26,0,.2)" : "rgba(0,0,0,.34)";
+  ctx.fillRect(0, 0, w, h);
 }
 
 function drawCore(cx, cy, now) {
   const beat = state === "playing" ? 1 + Math.max(0, 1 - Math.abs((audio.currentTime * 2) % 1 - .5) * 5) * .08 : 1;
   ctx.save(); ctx.translate(cx, cy); ctx.scale(beat, beat);
-  ctx.shadowBlur = 28; ctx.shadowColor = "#35f2ff";
-  ctx.strokeStyle = "#35f2ff"; ctx.lineWidth = 5;
+  ctx.shadowBlur = 24; ctx.shadowColor = "#ff2638";
+  ctx.strokeStyle = "rgba(255,255,255,.8)"; ctx.lineWidth = 4;
   ctx.beginPath(); ctx.arc(0, 0, 58, 0, Math.PI * 2); ctx.stroke();
-  ctx.rotate(now / 900);
-  ctx.strokeStyle = "rgba(255,255,255,.75)"; ctx.lineWidth = 3;
-  for (let i = 0; i < 4; i++) { ctx.rotate(Math.PI / 2); ctx.strokeRect(45, -7, 18, 14); }
+  ctx.fillStyle = "#ff2638";
+  ctx.beginPath();
+  ctx.moveTo(0, 22); ctx.bezierCurveTo(-8, 10, -30, -4, -30, -19); ctx.bezierCurveTo(-30, -35, -9, -38, 0, -22); ctx.bezierCurveTo(9, -38, 30, -35, 30, -19); ctx.bezierCurveTo(30, -4, 8, 10, 0, 22); ctx.fill();
   ctx.restore();
 }
 
 function drawBoss(w, h, now) {
-  const x = w / 2, y = h * .17;
-  ctx.save(); ctx.translate(x, y); ctx.rotate(Math.sin(now / 700) * .03);
-  ctx.shadowBlur = 24; ctx.shadowColor = "#ff3f9b";
-  ctx.strokeStyle = "#ff3f9b"; ctx.lineWidth = 4;
-  ctx.beginPath();
-  for (let i = 0; i < 12; i++) {
-    const a = i / 12 * Math.PI * 2 - Math.PI / 2;
-    const r = i % 2 ? 48 : 68;
-    const px = Math.cos(a) * r, py = Math.sin(a) * r;
-    i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
-  }
-  ctx.closePath(); ctx.stroke();
-  ctx.fillStyle = "#ff3f9b"; ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI * 2); ctx.fill();
+  if (!art.sans.complete) return;
+  const height = Math.min(190, h * .35);
+  const width = height * (art.sans.width / art.sans.height);
+  const bob = Math.sin(now / 330) * 2;
+  ctx.save();
+  ctx.imageSmoothingEnabled = false;
+  ctx.shadowBlur = now < overdriveUntil ? 22 : 10;
+  ctx.shadowColor = now < overdriveUntil ? "#ffd84d" : "rgba(0,0,0,.8)";
+  ctx.drawImage(art.sans, w / 2 - width / 2, h * .045 + bob, width, height);
   ctx.restore();
 }
 
@@ -239,10 +248,19 @@ function drawNotes(cx, cy, w, h, time) {
     const x = cx + Math.cos(note.angle) * radius;
     const y = cy + Math.sin(note.angle) * radius;
     ctx.save(); ctx.translate(x, y); ctx.rotate(note.angle + Math.PI / 2);
-    ctx.shadowBlur = 18; ctx.shadowColor = note.color; ctx.fillStyle = note.color;
-    if (note.type === "cross") { ctx.fillRect(-5, -17, 10, 34); ctx.fillRect(-17, -5, 34, 10); }
-    else if (note.type === "arrow") { ctx.beginPath(); ctx.moveTo(0, 17); ctx.lineTo(-14, -9); ctx.lineTo(-5, -6); ctx.lineTo(0, -18); ctx.lineTo(5, -6); ctx.lineTo(14, -9); ctx.closePath(); ctx.fill(); }
-    else { ctx.beginPath(); ctx.arc(0, 0, note.type === "orb" ? 13 : 11, 0, Math.PI * 2); ctx.fill(); if (note.type !== "orb") { ctx.rotate(Math.PI / 4); ctx.fillRect(-10, -10, 20, 20); } }
+    ctx.imageSmoothingEnabled = false; ctx.shadowBlur = 16; ctx.shadowColor = note.color;
+    if (note.type === "orb" && art.blaster.complete) {
+      const size = 74 + t * 24;
+      ctx.rotate(-Math.PI / 2);
+      ctx.drawImage(art.blaster, -size * .68, -size * .38, size * 1.36, size * .76);
+      ctx.strokeStyle = `rgba(85,223,255,${.12 + t * .45})`; ctx.lineWidth = 3 + t * 5;
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(-note.angle) * radius, Math.sin(-note.angle) * radius); ctx.stroke();
+    } else if (art.bone.complete) {
+      const bh = note.type === "cross" ? 82 : 68;
+      ctx.drawImage(art.bone, -10, -bh / 2, 20, bh);
+      if (note.type === "cross") { ctx.rotate(Math.PI / 2); ctx.drawImage(art.bone, -10, -bh / 2, 20, bh); }
+      if (note.type === "arrow") { ctx.drawImage(art.bone, 12, -bh / 2 + 10, 16, bh - 20); ctx.drawImage(art.bone, -28, -bh / 2 + 10, 16, bh - 20); }
+    }
     ctx.restore();
   }
 }
