@@ -329,7 +329,10 @@ function drawNotes(cx, cy, w, h, time) {
     const remaining = note.time - time;
     const t = Math.max(0, Math.min(1, 1 - remaining / 1.15));
     const radius = outer + (hitRadius - outer) * t;
-    const visualRadius = note.type === "orb" ? outer * .78 : radius;
+    const orbFiring = note.type === "orb" && t > .68;
+    const orbCharge = orbFiring ? Math.min(1, (t - .68) / .32) : 0;
+    const recoil = orbFiring ? Math.sin(orbCharge * Math.PI / 2) * 30 : 0;
+    const visualRadius = note.type === "orb" ? outer * .78 + recoil : radius;
     const x = cx + Math.cos(note.angle) * visualRadius;
     const y = cy + Math.sin(note.angle) * visualRadius;
     if (note.type === "cross") {
@@ -343,26 +346,31 @@ function drawNotes(cx, cy, w, h, time) {
         ctx.imageSmoothingEnabled = false;
         ctx.shadowBlur = 16;
         ctx.shadowColor = note.color;
-        drawBoneProjectile(52, 68);
+        drawBoneProjectile(40, 82);
         ctx.restore();
       }
       continue;
     }
     if (note.type === "orb") {
-      const firing = t > .68;
-      const charge = firing ? Math.min(1, (t - .68) / .32) : 0;
+      const firing = orbFiring;
+      const charge = orbCharge;
+      const size = 92 + t * 32;
+      const towardX = Math.cos(note.angle + Math.PI);
+      const towardY = Math.sin(note.angle + Math.PI);
+      const mouthX = x + towardX * size * .53;
+      const mouthY = y + towardY * size * .53;
       ctx.save();
       ctx.lineCap = "round";
       ctx.strokeStyle = firing ? `rgba(85,223,255,${.45 + charge * .45})` : "rgba(85,223,255,.3)";
       ctx.lineWidth = firing ? 32 + charge * 34 : 3;
       ctx.shadowBlur = firing ? 28 : 10;
       ctx.shadowColor = "#55dfff";
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(cx, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(mouthX, mouthY); ctx.lineTo(cx, cy); ctx.stroke();
       if (firing) {
         ctx.strokeStyle = `rgba(255,255,255,${.72 + charge * .28})`;
         ctx.lineWidth = 12 + charge * 18;
         ctx.shadowBlur = 16; ctx.shadowColor = "#fff";
-        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(cx, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(mouthX, mouthY); ctx.lineTo(cx, cy); ctx.stroke();
       }
       ctx.restore();
     }
@@ -372,12 +380,12 @@ function drawNotes(cx, cy, w, h, time) {
       const size = 92 + t * 32;
       ctx.drawImage(art.blaster, -size * .68, -size * .38, size * 1.36, size * .76);
     } else {
-      const bh = 64;
-      const bw = 48;
+      const bh = 74;
+      const bw = 36;
       drawBoneProjectile(bw, bh);
       if (note.type === "arrow") {
-        ctx.save(); ctx.translate(48, 0); drawBoneProjectile(42, 58); ctx.restore();
-        ctx.save(); ctx.translate(-48, 0); drawBoneProjectile(42, 58); ctx.restore();
+        ctx.save(); ctx.translate(42, 0); drawBoneProjectile(32, 68); ctx.restore();
+        ctx.save(); ctx.translate(-42, 0); drawBoneProjectile(32, 68); ctx.restore();
       }
     }
     ctx.restore();
