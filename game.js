@@ -273,6 +273,22 @@ function drawNotes(cx, cy, w, h, time) {
     const radius = outer + (hitRadius - outer) * t;
     const x = cx + Math.cos(note.angle) * radius;
     const y = cy + Math.sin(note.angle) * radius;
+    if (note.type === "cross" && art.bone.complete) {
+      for (const angleOffset of [0, Math.PI / 2]) {
+        const attackAngle = note.angle + angleOffset;
+        const boneX = cx + Math.cos(attackAngle) * radius;
+        const boneY = cy + Math.sin(attackAngle) * radius;
+        ctx.save();
+        ctx.translate(boneX, boneY);
+        ctx.rotate(attackAngle + Math.PI / 2);
+        ctx.imageSmoothingEnabled = false;
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = note.color;
+        ctx.drawImage(art.bone, -18, -51, 36, 102);
+        ctx.restore();
+      }
+      continue;
+    }
     if (note.type === "orb") {
       const firing = t > .68;
       const charge = firing ? Math.min(1, (t - .68) / .32) : 0;
@@ -297,10 +313,9 @@ function drawNotes(cx, cy, w, h, time) {
       const size = 92 + t * 32;
       ctx.drawImage(art.blaster, -size * .68, -size * .38, size * 1.36, size * .76);
     } else if (art.bone.complete) {
-      const bh = note.type === "cross" ? 102 : 88;
-      const bw = note.type === "cross" ? 36 : 32;
+      const bh = 88;
+      const bw = 32;
       ctx.drawImage(art.bone, -bw / 2, -bh / 2, bw, bh);
-      if (note.type === "cross") { ctx.rotate(Math.PI / 2); ctx.drawImage(art.bone, -bw / 2, -bh / 2, bw, bh); }
       if (note.type === "arrow") {
         ctx.drawImage(art.bone, 23, -bh / 2 + 7, 27, bh - 14);
         ctx.drawImage(art.bone, -50, -bh / 2 + 7, 27, bh - 14);
