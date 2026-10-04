@@ -64,6 +64,27 @@ function tone(freq, duration, wave = "square", volume = .025, slide = 0) {
   osc.start(now); osc.stop(now + duration);
 }
 
+function bell(frequency = 1180, strength = 1) {
+  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+  const now = audioContext.currentTime;
+  const master = audioContext.createGain();
+  master.gain.setValueAtTime(.0001, now);
+  master.gain.exponentialRampToValueAtTime(.12 * strength, now + .004);
+  master.gain.exponentialRampToValueAtTime(.0001, now + .58);
+  master.connect(audioContext.destination);
+  [1, 2.01, 3.96].forEach((ratio, index) => {
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(frequency * ratio, now);
+    osc.frequency.exponentialRampToValueAtTime(frequency * ratio * .995, now + .5);
+    gain.gain.setValueAtTime([1, .34, .12][index], now);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + [.55, .32, .18][index]);
+    osc.connect(gain).connect(master);
+    osc.start(now); osc.stop(now + .6);
+  });
+}
+
 function reset() {
   notes = []; particles = []; rings = []; chartIndex = 0;
   sync = 100; boss = 100; chain = 0; bestChain = 0; overdrive = 0; overdriveUntil = 0;
@@ -134,11 +155,14 @@ function pulse(event) {
   overdrive = Math.min(100, overdrive + (perfect ? 7 : 4));
   boss = Math.max(0, boss - power * (performance.now() < overdriveUntil ? 2.2 : 1));
   burst(candidate.angle, candidate.color, perfect ? 28 : 16);
+  if (perfect) burst(candidate.angle + Math.PI, "#ffffff", 14);
   rings.push({ life: 1, color: candidate.color, strength: perfect ? 1 : .65 });
+  if (perfect) rings.push({ life: 1.15, color: "#ffffff", strength: 1.35 });
   shake = perfect ? 11 : 6;
   flash = perfect ? .32 : .16;
   showJudge(perfect ? "PERFECT" : "SYNC", candidate.color);
-  tone(perfect ? 980 : 720, .07, "square", .035, perfect ? 1760 : 1100);
+  bell(perfect ? 1320 : 940, perfect ? 1 : .68);
+  if (perfect) setTimeout(() => bell(1980, .38), 42);
   if (overdrive >= 100 && performance.now() >= overdriveUntil) activateOverdrive();
   updateHud();
 }
@@ -149,7 +173,9 @@ function activateOverdrive() {
   ui.overdrive.classList.add("live");
   showJudge("OVERDRIVE", "#ffe45c");
   rings.push({ life: 1.5, color: "#ffe45c", strength: 2 });
-  tone(260, .35, "sawtooth", .04, 1560);
+  bell(660, 1);
+  setTimeout(() => bell(990, .8), 90);
+  setTimeout(() => bell(1320, .65), 180);
 }
 
 function miss(note) {
@@ -168,7 +194,7 @@ function burst(angle, color, count) {
   for (let i = 0; i < count; i++) {
     const a = angle + (Math.random() - .5) * 1.5;
     const speed = 80 + Math.random() * 260;
-    particles.push({ x: 0, y: 0, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: .45 + Math.random() * .45, color, size: 2 + Math.random() * 5 });
+    particles.push({ x: 0, y: 0, vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: .45 + Math.random() * .45, color, size: 2 + Math.random() * 5, angle: a });
   }
 }
 
@@ -269,7 +295,12 @@ function updateAndDrawEffects(cx, cy, dt) {
   particles = particles.filter(p => {
     p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt;
     if (p.life <= 0) return false;
-    ctx.globalAlpha = Math.min(1, p.life * 2); ctx.fillStyle = p.color; ctx.fillRect(cx + p.x, cy + p.y, p.size, p.size); ctx.globalAlpha = 1;
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, p.life * 2);
+    ctx.translate(cx + p.x, cy + p.y); ctx.rotate(p.angle);
+    ctx.fillStyle = p.color; ctx.shadowBlur = 12; ctx.shadowColor = p.color;
+    ctx.fillRect(-p.size * 2.8, -p.size / 2, p.size * 5.6, p.size);
+    ctx.restore();
     return true;
   });
   rings = rings.filter(r => {

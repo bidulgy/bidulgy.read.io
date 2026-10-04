@@ -19,7 +19,7 @@ header{height:44px;display:flex;align-items:center;justify-content:space-between
 #overdrive{position:absolute;left:50%;bottom:18px;width:min(420px,64%);transform:translateX(-50%);display:grid;grid-template-columns:auto 1fr;align-items:center;gap:10px;font:900 11px monospace;pointer-events:none}
 #overdrive>div{height:12px;border:2px solid #fff;background:#171724;overflow:hidden}#overdrive i{display:block;width:0;height:100%;background:var(--yellow);box-shadow:0 0 14px var(--yellow);transform-origin:left}
 #overdrive.live span{color:var(--yellow);text-shadow:0 0 8px var(--yellow)}
-#judge{position:absolute;left:50%;top:57%;transform:translate(-50%,-50%);font:900 clamp(22px,5vw,54px) Arial;pointer-events:none;text-shadow:0 0 18px currentColor;opacity:0}
+#judge{position:absolute;left:50%;top:57%;transform:translate(-50%,-50%);font:900 clamp(22px,5vw,54px) Arial;pointer-events:none;text-shadow:0 0 8px #000,0 0 22px currentColor;-webkit-text-stroke:1px rgba(255,255,255,.45);opacity:0}
 #judge.show{animation:judge-pop .32s ease-out}@keyframes judge-pop{0%{opacity:1;transform:translate(-50%,-50%) scale(.65)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%) scale(1.15)}}
 #startPanel,#resultPanel{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:14px;background:rgba(5,5,12,.84);text-align:center}
 #startPanel h1{margin:0;font-size:clamp(36px,8vw,74px);line-height:.9}#startPanel h1::first-line{color:#fff}
