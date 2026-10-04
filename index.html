@@ -3,36 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rhythm Soul - Sans Battle</title>
+<title>Pulse Breaker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
-  <header class="battle-hud">
-    <h1>RHYTHM SOUL</h1>
-    <div class="stats">
-      <span>HP <b id="hp">20</b>/20</span>
-      <span id="time">0:00 / 2:36</span>
-    </div>
+  <header>
+    <div class="brand">PULSE <b>BREAKER</b></div>
+    <div class="track"><span id="time">0:00</span><i><em id="progress"></em></i><span>2:36</span></div>
   </header>
-  <section id="stage" aria-label="샌즈 리듬 전투">
-    <div id="enemyArea">
-      <img id="battleImage" src="assets/sans-character.png" alt="샌즈">
-      <div id="speech" role="status"><span id="speechText"></span></div>
-      <div id="attackLayer" aria-hidden="true"></div>
-      <div id="timing">READY</div>
+  <section id="gameShell">
+    <canvas id="game" aria-label="원형 패링 리듬게임"></canvas>
+    <div id="topHud">
+      <div class="boss-label"><span>CORE</span><div><i id="bossHp"></i></div></div>
+      <div id="combo"><b>0</b><span>CHAIN</span></div>
+      <div class="life-label"><span>SYNC</span><div><i id="life"></i></div></div>
     </div>
-    <div id="soulBox" aria-label="영혼 전투 구역">
-      <div id="soul" aria-label="플레이어 영혼">♥</div>
+    <div id="overdrive"><span>OVERDRIVE</span><div><i id="overdriveFill"></i></div></div>
+    <div id="judge"></div>
+    <div id="startPanel">
+      <h1>PULSE BREAKER</h1>
+      <p>다가오는 파동이 코어에 닿는 순간 패링하세요.</p>
+      <button id="start">시작</button>
     </div>
-    <div id="beatFlash"></div>
-    <div id="clearScreen"><b>CLEAR</b><span>끝까지 살아남았습니다.</span></div>
+    <div id="resultPanel">
+      <strong id="resultTitle">COMPLETE</strong>
+      <span id="resultText"></span>
+      <button id="retry">다시 시작</button>
+    </div>
   </section>
-  <div class="controls">
-    <button id="start">전투 시작</button>
-    <button id="defend">방어</button>
-  </div>
-  <p id="status">영혼은 움직이지 않습니다. 공격이 닿는 순간 아무 키나 누르세요.</p>
+  <button id="pulse" aria-label="패링">PULSE</button>
+  <p class="hint">아무 키 / 화면 탭</p>
 </main>
 <script src="game.js"></script>
 </body>
