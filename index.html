@@ -3,27 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pulse Breaker</title>
+<title>Soul Slash</title>
 <link rel="stylesheet" href="style.css?v=blaster-recoil">
 </head>
 <body>
 <main>
   <header>
-    <div class="brand">PULSE <b>BREAKER</b></div>
+    <div class="brand">SOUL <b>SLASH</b></div>
     <div class="track"><span id="time">0:00</span><i><em id="progress"></em></i><span>2:36</span></div>
   </header>
   <section id="gameShell">
-    <canvas id="game" aria-label="원형 패링 리듬게임"></canvas>
+    <canvas id="game" aria-label="네 방향 탄환 베기 리듬게임"></canvas>
     <div id="topHud">
-      <div class="boss-label"><span>TRACK</span><div><i id="bossHp"></i></div></div>
+      <div class="boss-label"><span>ENEMY</span><div><i id="bossHp"></i></div></div>
       <div id="combo"><b>0</b><span>CHAIN</span></div>
-      <div class="life-label"><span>SOUL SYNC</span><div><i id="life"></i></div></div>
+      <div class="life-label"><span>HP</span><div><i id="life"></i></div></div>
     </div>
-    <div id="overdrive"><span>DETERMINATION</span><div><i id="overdriveFill"></i></div></div>
+    <div id="overdrive"><span>FURY</span><div><i id="overdriveFill"></i></div></div>
     <div id="judge"></div>
     <div id="startPanel">
-      <h1>PULSE BREAKER</h1>
-      <p>두 영혼이 다음 타일에서 만나는 순간 아무 키나 누르세요.</p>
+      <h1>SOUL SLASH</h1>
+      <p>네 방향에서 날아오는 탄환을 W A S D로 베세요.</p>
       <button id="start">시작</button>
     </div>
     <div id="resultPanel">
@@ -32,9 +32,14 @@
       <button id="retry">다시 시작</button>
     </div>
   </section>
-  <button id="pulse" aria-label="박자 입력">STEP</button>
-  <p class="hint">아무 키 / 화면 탭</p>
+  <div class="dpad" aria-label="방향 베기">
+    <button data-dir="up">W</button>
+    <button data-dir="left">A</button>
+    <button data-dir="down">S</button>
+    <button data-dir="right">D</button>
+  </div>
+  <p class="hint">W A S D · 베기 재사용 0.3초</p>
 </main>
-<script src="game.js?v=orbit-v1"></script>
+<script src="game.js?v=slash-v1"></script>
 </body>
 </html>
