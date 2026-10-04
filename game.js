@@ -273,19 +273,38 @@ function drawNotes(cx, cy, w, h, time) {
     const radius = outer + (hitRadius - outer) * t;
     const x = cx + Math.cos(note.angle) * radius;
     const y = cy + Math.sin(note.angle) * radius;
-    ctx.save(); ctx.translate(x, y); ctx.rotate(note.angle + Math.PI / 2);
+    if (note.type === "orb") {
+      const firing = t > .68;
+      const charge = firing ? Math.min(1, (t - .68) / .32) : 0;
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.strokeStyle = firing ? `rgba(85,223,255,${.45 + charge * .45})` : "rgba(85,223,255,.3)";
+      ctx.lineWidth = firing ? 32 + charge * 34 : 3;
+      ctx.shadowBlur = firing ? 28 : 10;
+      ctx.shadowColor = "#55dfff";
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(cx, cy); ctx.stroke();
+      if (firing) {
+        ctx.strokeStyle = `rgba(255,255,255,${.72 + charge * .28})`;
+        ctx.lineWidth = 12 + charge * 18;
+        ctx.shadowBlur = 16; ctx.shadowColor = "#fff";
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(cx, cy); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.save(); ctx.translate(x, y); ctx.rotate(note.type === "orb" ? note.angle + Math.PI : note.angle + Math.PI / 2);
     ctx.imageSmoothingEnabled = false; ctx.shadowBlur = 16; ctx.shadowColor = note.color;
     if (note.type === "orb" && art.blaster.complete) {
-      const size = 74 + t * 24;
-      ctx.rotate(-Math.PI / 2);
+      const size = 92 + t * 32;
       ctx.drawImage(art.blaster, -size * .68, -size * .38, size * 1.36, size * .76);
-      ctx.strokeStyle = `rgba(85,223,255,${.12 + t * .45})`; ctx.lineWidth = 3 + t * 5;
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(-note.angle) * radius, Math.sin(-note.angle) * radius); ctx.stroke();
     } else if (art.bone.complete) {
-      const bh = note.type === "cross" ? 82 : 68;
-      ctx.drawImage(art.bone, -10, -bh / 2, 20, bh);
-      if (note.type === "cross") { ctx.rotate(Math.PI / 2); ctx.drawImage(art.bone, -10, -bh / 2, 20, bh); }
-      if (note.type === "arrow") { ctx.drawImage(art.bone, 12, -bh / 2 + 10, 16, bh - 20); ctx.drawImage(art.bone, -28, -bh / 2 + 10, 16, bh - 20); }
+      const bh = note.type === "cross" ? 102 : 88;
+      const bw = note.type === "cross" ? 36 : 32;
+      ctx.drawImage(art.bone, -bw / 2, -bh / 2, bw, bh);
+      if (note.type === "cross") { ctx.rotate(Math.PI / 2); ctx.drawImage(art.bone, -bw / 2, -bh / 2, bw, bh); }
+      if (note.type === "arrow") {
+        ctx.drawImage(art.bone, 23, -bh / 2 + 7, 27, bh - 14);
+        ctx.drawImage(art.bone, -50, -bh / 2 + 7, 27, bh - 14);
+      }
     }
     ctx.restore();
   }
